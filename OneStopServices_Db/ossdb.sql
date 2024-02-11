@@ -104,16 +104,13 @@ CREATE TABLE `customers` (
   `user_id` int NOT NULL,
   `fname` varchar(45) NOT NULL,
   `lname` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
+  `email` varchar(55) NOT NULL,
   `address` varchar(200) NOT NULL,
   `contact_number` varchar(10) NOT NULL,
-  `area_id` int NOT NULL,
   PRIMARY KEY (`customer_id`),
   KEY `user_id` (`user_id`),
-  KEY `area_id` (`area_id`),
-  CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `customers_ibfk_2` FOREIGN KEY (`area_id`) REFERENCES `areas` (`area_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +119,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` VALUES (1,8,'Sakshet','Patil','Nanded','sakshetp@gmail.com','1234598765'),(2,10,'Pratu','Wadkar','Narhe Ambegaon,Katraj','pratuw@gmail.com','8976543210'),(3,13,'Madhu','Shinde','A/p-Golegaon,Shirur','madhus@gmail.com','8976548910');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +189,7 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NOT NULL,
+  `username` varchar(55) NOT NULL,
   `password` varchar(30) NOT NULL,
   `roleid` int NOT NULL,
   `status` bit(1) NOT NULL,
@@ -199,7 +197,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   KEY `roleid_idx` (`roleid`),
   CONSTRAINT `roleid` FOREIGN KEY (`roleid`) REFERENCES `role` (`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +206,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Snehal','sneha123',2,_binary ''),(2,'Mahesh','mahesh123',3,_binary '');
+INSERT INTO `users` VALUES (1,'Snehal','sneha123',2,_binary ''),(6,'pratik@gmail.com','Pratik@123',3,_binary '\0'),(7,'amit@gmail.com','Amit@123',3,_binary '\0'),(8,'sakshet@gmail.com','Sakshet@123',2,_binary '\0'),(10,'pratu@gmail.com','Pratu@123',2,_binary ''),(13,'madhu@gmail.com','Madhu@123',2,_binary '');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,18 +223,15 @@ CREATE TABLE `vendors` (
   `fname` varchar(30) NOT NULL,
   `lname` varchar(45) NOT NULL,
   `address` varchar(200) NOT NULL,
-  `email` varchar(30) NOT NULL,
+  `email` varchar(55) NOT NULL,
   `contact_number` varchar(10) NOT NULL,
-  `area_id` int NOT NULL,
   `serviceid` int DEFAULT NULL,
   PRIMARY KEY (`vendor_id`),
   KEY `user_id` (`user_id`),
-  KEY `area_id` (`area_id`),
   KEY `serviceid_idx` (`serviceid`),
   CONSTRAINT `serviceid` FOREIGN KEY (`serviceid`) REFERENCES `categories` (`service_id`),
-  CONSTRAINT `vendors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `vendors_ibfk_2` FOREIGN KEY (`area_id`) REFERENCES `areas` (`area_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `vendors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,6 +240,7 @@ CREATE TABLE `vendors` (
 
 LOCK TABLES `vendors` WRITE;
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
+INSERT INTO `vendors` VALUES (1,6,'Om','abc','Pune,Gokhalenagar','pratu@gmail.com','9921908544',3),(2,7,'Amit','Lakade','Pune,Karvenagar','lakadeamit@gmail.com','8976543421',4);
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -257,4 +253,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-08 16:05:28
+-- Dump completed on 2024-02-10 12:19:30
