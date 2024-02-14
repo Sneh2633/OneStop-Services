@@ -30,4 +30,5 @@ public class ServiceController {
 		Service sr=new Service(s.getService_name());
 		return sservice.saveService(sr);
 	}
+	
 }

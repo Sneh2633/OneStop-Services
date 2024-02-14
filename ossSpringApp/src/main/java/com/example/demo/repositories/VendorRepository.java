@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.User;
@@ -16,6 +17,7 @@ public interface VendorRepository extends JpaRepository<Vendor, Integer> {
 	
 	@Query("SELECT v FROM Vendor v WHERE v.user_id in (SELECT u FROM User u WHERE u.status = false)")
 	public List<Vendor> getVendors();
-
-
+	
+	 @Query("SELECT v FROM Vendor v WHERE v.serviceid.id = :serviceId")
+	    List<Vendor> findByServiceId(@Param("serviceId") int serviceId);
 }
