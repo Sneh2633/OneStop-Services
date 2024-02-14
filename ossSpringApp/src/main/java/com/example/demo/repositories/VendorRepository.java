@@ -18,8 +18,8 @@ public interface VendorRepository extends JpaRepository<Vendor, Integer> {
 	@Query("SELECT v FROM Vendor v WHERE v.user_id in (SELECT u FROM User u WHERE u.status = false)")
 	public List<Vendor> getVendors();
 
-	@Query("SELECT v FROM Vendor v WHERE v.serviceid.id = :serviceId")
-    List<Vendor> findByServiceId(@Param("serviceId") int serviceId);
-
 	
+	 @Query("SELECT v FROM Vendor v WHERE v.serviceid.id = :serviceId")
+	    List<Vendor> findByServiceId(@Param("serviceId") int serviceId);
+
 }

@@ -36,4 +36,8 @@ public class CustomerController {
 		Customer c=new Customer(cr.getFname(),cr.getLname(),cr.getAddress(),cr.getEmail(),cr.getContact(),saved);
 		return cservice.saveCustomer(c);
 	}
+	
+	//added new endpoint
+	
+	
 }

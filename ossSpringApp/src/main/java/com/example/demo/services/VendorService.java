@@ -39,6 +39,10 @@ public class VendorService {
 		
 		return vendor;
 	}
+	
+	public List<Vendor> getVendorsByServiceId(int serviceid) {
+       return vrepo.findByServiceId(serviceid);
+   }
 
 	//add required methods here
 	

@@ -58,6 +58,10 @@ public class VendorController {
 	public Vendor changeStatus(@PathVariable Integer id) {
 		return vservice.changeStatusById(id);
 	}
-
+	
+	 @GetMapping("getVendor/{serviceid}")
+	 public List<Vendor> getVendorsByServiceId(@PathVariable int serviceid) {
+	        return vservice.getVendorsByServiceId(serviceid);
+	    }
 	
 }
