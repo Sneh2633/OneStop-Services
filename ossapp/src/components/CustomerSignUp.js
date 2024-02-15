@@ -1,5 +1,5 @@
 import { useState, useReducer } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function CustomerSignUp() {
     // Your customer login form component
     const init = {
@@ -26,6 +26,7 @@ export default function CustomerSignUp() {
 
     const [bookings, dispatch] = useReducer(reducer, init);
     const [insertMsg, setInsertMsg] = useState("");
+    const navigate = useNavigate();
 
     const validateData = (key, val) => {
         let valid = true;
@@ -115,6 +116,9 @@ export default function CustomerSignUp() {
                     if (res.status === 200) {
                         // Registration successful
                         setInsertMsg("Registration successful");
+                        //alert("Registration successfull");
+                        {/*to navigate to login page */}
+                        navigate("/login");
                     } else if (res.status === 400) {
                         // Bad request, handle validation errors
                         return res.json().then((data) => {
@@ -130,7 +134,7 @@ export default function CustomerSignUp() {
                 .catch((error) => {
                     // Handle network errors and other exceptions here
                     console.error("There was a problem with the fetch operation:", error.message);
-                    setInsertMsg("Registration failed. Please try again later.");
+                    setInsertMsg("Registration failed as server is unreachable . Please try again later.");
                 });
         } else {
             console.log("Form has validation errors. Please fix them before submitting.");

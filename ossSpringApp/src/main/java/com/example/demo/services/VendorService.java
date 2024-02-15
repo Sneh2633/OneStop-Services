@@ -40,6 +40,7 @@ public class VendorService {
 		return vendor;
 	}
 	
+	//to give vendors list by service id
 	public List<Vendor> getVendorsByServiceId(int serviceid) {
        return vrepo.findByServiceId(serviceid);
    }

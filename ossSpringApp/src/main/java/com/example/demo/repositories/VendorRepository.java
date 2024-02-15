@@ -19,6 +19,7 @@ public interface VendorRepository extends JpaRepository<Vendor, Integer> {
 	public List<Vendor> getVendors();
 
 	
+	//to show services by fetching service id
 	 @Query("SELECT v FROM Vendor v WHERE v.serviceid.id = :serviceId")
 	    List<Vendor> findByServiceId(@Param("serviceId") int serviceId);
 

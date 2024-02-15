@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { Navbar } from 'react-bootstrap';
-
 export default function AdminHome() {
+
     const mystate = useSelector(state => state.logged)
     return (
         <div>
@@ -13,14 +13,14 @@ export default function AdminHome() {
                     <Navbar.Brand>AdminHome</Navbar.Brand>
                     </li>
                     <li className="nav-item">
-                        <Link to="feedback" className="nav-link">Approve Vendor</Link>
+                        <Link to="addservice" className="nav-link">Add Services</Link>
                     </li>
+                    
+                    {/*approve vendor registration request => Approvement Component*/}
                     <li className="nav-item">
-                        <Link to="feedback" className="nav-link">Add Services</Link>
+                        <Link to="approvevendor" className="nav-link">Approve Vendor</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link to="feedback" className="nav-link">Update Services</Link>
-                    </li>
+
                     <li className="nav-item">
                         <Link to="logout" className="nav-link">Logout</Link>
                     </li>

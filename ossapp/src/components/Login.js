@@ -59,10 +59,11 @@ export default function Login() {
     dispatch({ type: "update", data: { key, value, touched: true, valid, error } });
   };
 
+  // 
   const submitData = (e) => {
     e.preventDefault();
     const isFormValid = Object.values(bookings).every((field) => field.valid);
-
+  
     if (isFormValid) {
       const reqOptions = {
         method: "POST",
@@ -72,36 +73,53 @@ export default function Login() {
           password: bookings.password.value,
         }),
       };
-
+  
       fetch("http://localhost:8080/chklogin", reqOptions)
-        .then((res) => res.json()) // Parse the response as JSON
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
+        })
         .then((data) => {
-          console.log(data); // Ensure you're getting the expected response data
-
+          console.log(data);
+  
           if (data && data.roleid) {
-            if (data.roleid.rid === 2) {
+            //for admin check
+            if (data.roleid.rid === 1) {
+              navigate("/adminhome");
+              myaction(login());
+            }
+            //for customer check
+            else if (data.roleid.rid === 2) {
               console.log("valid ");
               console.log("after dispatch");
               navigate("/customerhome");
               myaction(login());
-            } else if (data.roleid.rid === 3) {
+            }
+            //for vendor check
+            else if (data.roleid.rid === 3) {
               console.log("valid ");
               console.log("after dispatch");
               navigate("/vendorhome");
-              myaction(login());
-            } else if (data.roleid.rid == 1) {
-              navigate("/adminhome");
               myaction(login());
             }
           } else {
             // Handle invalid login or missing data
             setInsertMsg("Invalid login or missing data");
           }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          setInsertMsg("Server is not reachable or network error occurred. Please try again later.");
+          //alert("Server error");
         });
     } else {
       console.log("Form has validation errors. Please fix them before submitting.");
     }
   };
+  
+  
 
   return (
     <div className="container">
@@ -143,7 +161,7 @@ export default function Login() {
         <div class="col">
         </div>
       </div>
-      <h1> {insertMsg} </h1>
+      <h2> {insertMsg} </h2>
     </div>
   );
 }

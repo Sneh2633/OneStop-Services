@@ -13,9 +13,11 @@ function Registration() {
     return (
         <div className="container mt-5">
             <div className="row">
+                {/*vendor registration*/}
                 <div className="col-md-6">
                     <button className="btn btn-primary btn-block" onClick={() => handleLogin(1)}>VendorSignUp</button>
                 </div>
+                {/*Customer registration*/}
                 <div className="col-md-6">
                     <button className="btn btn-primary btn-block" onClick={() => handleLogin(2)}>CustomerSignUp</button>
                 </div>

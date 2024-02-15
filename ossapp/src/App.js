@@ -8,8 +8,13 @@ import { useSelector } from 'react-redux';
 import VendorHome from './components/VendorHome';
 import CustomerHome from './components/CustomerHome';
 import AdminHome from './components/AdminHome';
-//import VendorSignUp from './components/VendorSignUp';
-//import CustomerSignUp from './components/CustomerSignUp';
+import ApproveVendor from './components/ApproveVendor';
+import AddService from './components/AddService';
+import SearchVendor from './components/SearchVendor';
+import OredersHistory from './components/OredersHistory';
+import CustomerRequest from './components/CustomerRequest';
+import UpdateService from './components/UpdateService';
+import VendorFeedback from './components/VendorFeedback';
 
 function App() {
   const mystate = useSelector(state => state.logged);
@@ -25,30 +30,31 @@ function App() {
             <li className="nav-item">
                   <Link to="/register" className="nav-link">Registration</Link>
             </li>
-            {/*<li className="nav-item">
-              <Link to="/vendorreg" className="nav-link">Vendor Registration</Link>
-            </li>
-
-            <li className="nav-item">
-              <Link to="/customerreg" className="nav-link">Customer Registration</Link>
-            </li>*/}
           </ul>
         </nav>
       </div>
 
       <Routes>
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={ <Registration/>} />
-        {/*<Route path="/vendorreg" element={<VendorSignUp />} />
-        <Route path="/customerreg" element={<CustomerSignUp />} />*/}
+
         <Route path="/customerhome" element={<CustomerHome />} >
           <Route path="logout" element={<Logout />} />
+          <Route path="searchvendors" element={<SearchVendor />} />
+          <Route path="ordershistory" element={<OredersHistory />} />  
         </Route>
+
         <Route path="/vendorhome" element={<VendorHome />} >
+          <Route path="customerrequests" element={<CustomerRequest />} />
+          <Route path="updateservices" element={<UpdateService />} />
           <Route path="logout" element={<Logout />} />
         </Route>
+
         <Route path="/adminhome" element={<AdminHome />} >
           <Route path="logout" element={<Logout />} />
+          <Route path="approvevendor" element={<ApproveVendor />} />
+          <Route path="addservice" element={<AddService />} />
         </Route>
       </Routes>
     </div>
