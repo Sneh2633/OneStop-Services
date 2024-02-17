@@ -253,7 +253,7 @@ export default function VendorSignUp() {
                             {bookings.password.error}
                         </div>
                         <div className="mt-3 mb-3">
-                            <label htmlFor="service" className="form-label"> Service </label>
+                            <label htmlFor="service" className="form-label"> Category </label>
                             <select
                                 id="service"
                                 name="service"

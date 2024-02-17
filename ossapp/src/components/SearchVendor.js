@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
-import { useNavigate , Link} from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 export default function SearchVendor() {
     const init = {
@@ -105,7 +105,7 @@ export default function SearchVendor() {
                     <h1> Search Vendor </h1>
                     <form>
                         <div className="mt-3 mb-3">
-                            <label htmlFor="service" className="form-label"> Service </label>
+                            <label htmlFor="service" className="form-label"> Category </label>
                             <select
                                 id="service"
                                 name="service"
@@ -137,25 +137,29 @@ export default function SearchVendor() {
                             <table className="table" style={{ width: "100%", borderCollapse: "collapse" }}>
                                 <thead>
                                     <tr>
-                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>Service Id</th>
+                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>Vendor Id</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Fname</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Lname</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Email</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Address</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Contact</th>
-                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>Action</th>
+                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>ViewFeedback</th>
+                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>ViewCost</th>
+                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>MakeRequest</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {serviceDetails.map((vendor) => (
                                         <tr key={vendor.vendor_id}>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id}</td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/feedback">{vendor.fname}</Link></td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.fname}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.lname}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.email}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.address}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.contact_number}</td>
-
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/customerhome/searchvendors/VendorFeedback">VendorFeedback</Link></td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/customerhome/searchvendors/ServiceCost">ServiceCost</Link></td>
                                             <td>
                                                 <button>Request</button>
                                             </td>

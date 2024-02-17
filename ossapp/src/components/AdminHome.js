@@ -13,6 +13,10 @@ export default function AdminHome() {
                     <Navbar.Brand>AdminHome</Navbar.Brand>
                     </li>
                     <li className="nav-item">
+                        <Link to="addcategory" className="nav-link">Add Category</Link>
+                    </li>
+
+                    <li className="nav-item">
                         <Link to="addservice" className="nav-link">Add Services</Link>
                     </li>
                     
