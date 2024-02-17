@@ -21,10 +21,13 @@ public class ServiceService {
 	}
 	
 	public com.example.demo.entities.Service getById(int id){
+		
+		
 		return srepo.findById(id).get();
 	}
 	
 	public com.example.demo.entities.Service saveService(com.example.demo.entities.Service s){
 		return srepo.save(s);
 	}
+
 }

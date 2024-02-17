@@ -45,8 +45,10 @@ public class VendorService {
        return vrepo.findByServiceId(serviceid);
    }
 
-	//add required methods here
 	
-	//added some code
-	   
+	 public Vendor findVendor(User user) {
+
+	       return vrepo.findVendor(user);
+
+	   }
 }

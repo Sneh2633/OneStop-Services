@@ -64,5 +64,12 @@ public class VendorController {
 	 public List<Vendor> getVendorsByServiceId(@PathVariable int serviceid) {
 	        return vservice.getVendorsByServiceId(serviceid);
 	    }
+	 
+	 @GetMapping("/getVendor")
+	 public Vendor getVendor(@RequestParam("userid")int userid)
+	 {
+		 User u = uservice.getUser(userid);
+		 return vservice.findVendor(u);
+	 }
 	
 }

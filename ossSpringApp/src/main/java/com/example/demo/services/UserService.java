@@ -29,4 +29,8 @@ public class UserService {
 	public User save(User u) {
 		return urepo.save(u);
 	}
+	
+	public User getUser(int userid) {
+		return urepo.findById(userid).get();
+	}
 }
