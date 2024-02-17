@@ -1,39 +1,34 @@
-import React, { useState, useReducer, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function VendorFeedback() {
-    
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/data');
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error('Error fetching data:', error.message);
-      }
-    };
+    const [feedbacks, setFeedbacks] = useState([]);
 
-    fetchData();
-  }, []);
+    useEffect(() => {
+        fetch("http://localhost:8080/getFeedback")
+            .then(resp => resp.json())
+            .then(data => setFeedbacks(data))
+            .catch(error => console.error('Error fetching feedbacks:', error));
+    }, []);
 
-  return (
-    <div>
-      <h1>Vendor Feedback</h1>
-      <ul>
-        {data.map(item => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-
-
-
-
+    return (
+        <div className="container">
+            <table className="table table-bordered" style={{ margin: "20px", padding: "10px" }}>
+                <thead className="thead-dark">
+                    <tr>
+                        <th>Comments</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {feedbacks.map((feedback, index) => (
+                        <tr key={index}>
+                            <td>{feedback.comments}</td>
+                            <td>{feedback.rating}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    )
+}

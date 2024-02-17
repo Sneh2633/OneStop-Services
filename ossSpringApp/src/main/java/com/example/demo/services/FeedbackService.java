@@ -17,4 +17,8 @@ public class FeedbackService {
 	public List<feedback> getFeedbackByVendorId(int vendorId) {
         return fr.findByVendorId(vendorId);
     }
+	
+	/*public feedback saveFeedback(feedback feedback) {
+        return fr.save(feedback);
+    }*/
 }

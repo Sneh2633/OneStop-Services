@@ -196,16 +196,7 @@ export default function CustomerSignUp() {
                             {bookings.contact.error}
                         </div>
 
-                        <div className="mt-3 mb-3">
-                            <label htmlFor="address" className="form-label"> Address </label>
-                            <input type="text" id="address" name="address" className="form-control"
-                                value={bookings.address.value}
-                                onChange={(e) => { handleChange("address", e.target.value) }}
-                                onBlur={(e) => { handleChange("address", e.target.value) }} />
-                        </div>
-                        <div style={{ color: "Red", display: bookings.address.touched && !bookings.address.valid ? "block" : "none" }}>
-                            {bookings.address.error}
-                        </div>
+                        
 
                         <div className="mt-3 mb-3">
                             <label htmlFor="email" className="form-label"> Email </label>
@@ -216,6 +207,17 @@ export default function CustomerSignUp() {
                         </div>
                         <div style={{ color: "Red", display: bookings.email.touched && !bookings.email.valid ? "block" : "none" }}>
                             {bookings.email.error}
+                        </div>
+
+                        <div className="mt-3 mb-3">
+                            <label htmlFor="address" className="form-label"> Address </label>
+                            <input type="text" id="address" name="address" className="form-control"
+                                value={bookings.address.value}
+                                onChange={(e) => { handleChange("address", e.target.value) }}
+                                onBlur={(e) => { handleChange("address", e.target.value) }} />
+                        </div>
+                        <div style={{ color: "Red", display: bookings.address.touched && !bookings.address.valid ? "block" : "none" }}>
+                            {bookings.address.error}
                         </div>
 
                         <div className="mt-3 mb-3">

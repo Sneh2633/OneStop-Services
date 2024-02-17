@@ -36,7 +36,7 @@ public class CustomerController {
 		User saved=uservice.save(u);
 	
 		
-		Customer c=new Customer(cr.getFname(),cr.getLname(),cr.getAddress(),cr.getEmail(),cr.getContact(),saved);
+		Customer c=new Customer(cr.getFname(),cr.getLname(),cr.getEmail(),cr.getAddress(),cr.getContact(),saved);
 		return cservice.saveCustomer(c);
 	}
 	
