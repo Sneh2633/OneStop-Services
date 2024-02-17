@@ -1,5 +1,8 @@
 package com.example.demo.services;
 
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,4 +25,9 @@ public class CustomerService {
 	 public Customer findCustomer(User user) {
 	       return crepo.findCustomer(user);
 	  }
+	 
+	 public Customer findById(int id) {
+	        Optional<Customer> customer = crepo.findById(id);
+	        return customer.orElse(null);
+	    }
 }

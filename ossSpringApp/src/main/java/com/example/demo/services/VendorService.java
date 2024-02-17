@@ -1,10 +1,12 @@
 package com.example.demo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entities.Customer;
 import com.example.demo.entities.User;
 import com.example.demo.entities.Vendor;
 import com.example.demo.repositories.UserRepository;
@@ -51,4 +53,8 @@ public class VendorService {
 	       return vrepo.findVendor(user);
 
 	   }
+	 public Vendor findById(int id) {
+	        Optional<Vendor> vendor = vrepo.findById(id);
+	        return vendor.orElse(null);
+	    }
 }
