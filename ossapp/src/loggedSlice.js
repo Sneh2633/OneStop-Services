@@ -7,9 +7,9 @@ export const loggedSlice = createSlice({
         loggedIn: false
     },
     reducers : {
-        login: (state)=> {console.log("in login action"); return {loggedIn: true}},
+        login: (state,action)=> {console.log("in login action"); return {loggedIn: true,user: action.payload}},
 
-        logout: (state) => { return {loggedIn: false}}
+        logout: (state) => { return {loggedIn: false,user: null}}
     }
 })
 //component actions - useDispatch

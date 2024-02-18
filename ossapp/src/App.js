@@ -47,6 +47,8 @@ function App() {
           <Route path="ordershistory" element={<OredersHistory />} />
           <Route path="/customerhome/searchvendors/VendorFeedback" element={<VendorFeedback />} />
           <Route path="/customerhome/searchvendors/ServiceCost" element={<ServiceCost />} />
+          <Route path="/customerhome/searchvendors/VendorFeedback/:vendorId" element={<VendorFeedback />} />
+
         </Route>
        
 

@@ -82,27 +82,27 @@ export default function Login() {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
+          
   
           if (data && data.roleid) {
             //for admin check
             if (data.roleid.rid === 1) {
               navigate("/adminhome");
-              myaction(login());
+              myaction(login(data));
             }
             //for customer check
             else if (data.roleid.rid === 2) {
               console.log("valid ");
               console.log("after dispatch");
               navigate("/customerhome");
-              myaction(login());
+              myaction(login(data));
             }
             //for vendor check
             else if (data.roleid.rid === 3) {
               console.log("valid ");
               console.log("after dispatch");
               navigate("/vendorhome");
-              myaction(login());
+              myaction(login(data));
             }
           } else {
             // Handle invalid login or missing data

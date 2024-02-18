@@ -1,10 +1,16 @@
 import React, { useState, useReducer, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate,Link } from "react-router-dom";
 
 export default function SearchVendor() {
     const init = {
         service: { value: "", valid: false, touched: false, error: "" },
     };
+
+    const user = useSelector((state) =>
+
+     state.logged.user);
+    console.log('from search vendor'+user);
 
     //to request the specific vendor
     
@@ -62,6 +68,9 @@ export default function SearchVendor() {
 
         return { valid: valid, error: error };
     };
+
+ 
+
 
     const handleChange = (key, value) => {
         const { valid, error } = validateData(key, value);
@@ -158,7 +167,7 @@ export default function SearchVendor() {
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.email}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.address}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.contact_number}</td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/customerhome/searchvendors/VendorFeedback">VendorFeedback</Link></td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to={`/customerhome/searchvendors/VendorFeedback/${vendor.vendor_id}`}>VendorFeedback</Link></td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/customerhome/searchvendors/ServiceCost">ServiceCost</Link></td>
                                             <td>
                                                 <button>Request</button>
