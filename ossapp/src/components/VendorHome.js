@@ -1,7 +1,24 @@
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { Navbar } from 'react-bootstrap';
+import { useEffect } from "react";
 export default function VendorHome() {
+
+
+    useEffect(()=> {
+        const userid = JSON.parse(localStorage.getItem("loggedUser")).user_id;
+        console.log(userid)
+        fetch("http://localhost:8080/getVendor?userid="+userid)
+        .then(resp => {
+            console.log(resp.status)
+            if(resp.ok)
+                return resp.json();
+            else
+                throw new Error("server error")
+        })
+        .then(obj => localStorage.setItem("loggedVendor",JSON.stringify(obj)))
+        .catch(error => console.log(error.toString()))
+    },[])
 
     const mystate = useSelector(state => state.logged)
     return (
@@ -15,8 +32,13 @@ export default function VendorHome() {
                     <li className="nav-item">
                         <Link to="customerrequests" className="nav-link">Customer Requests</Link>
                     </li>
+
                     <li className="nav-item">
-                        <Link to="updateservices" className="nav-link">Update Services</Link>
+                        <Link to="addservice" className="nav-link">Add Services</Link>
+                    </li>
+
+                    <li className="nav-item">
+                        <Link to="updateservices" className="nav-link">Update Cost</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="logout" className="nav-link">Logout</Link>

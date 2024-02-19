@@ -2,11 +2,31 @@ import { useState, useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AddService() {
+  useEffect(()=> {
+    const vid = JSON.parse(localStorage.getItem("loggedVendor")).vendor_id;
+    const catid = JSON.parse(localStorage.getItem("loggedVendor")).serviceid.service_id;
+
+    console.log(vid);
+    console.log(catid);
+    /*fetch("http://localhost:8080/getsubService?catid="+catid)
+    .then(resp => {
+        console.log(resp.status)
+        if(resp.ok)
+            return resp.json();
+        else
+            throw new Error("server error")
+    }) */
+    /*.then(obj => localStorage.setItem("loggedVendor",JSON.stringify(obj)))
+    .catch(error => console.log(error.toString()))*/
+},[])
+
+
+
+
   const init = {
     cost: { value: "", valid: false, touched: false, error: "" },
     description: { value: "", valid: false, touched: false, error: "" },
     serviceName: { value: "", valid: false, touched: false, error: "" },
-    service: { value: "", valid: false, touched: false, error: "" },
   };
 
   const reducer = (state, action) => {
@@ -23,27 +43,9 @@ export default function AddService() {
 
   const [bookings, dispatch] = useReducer(reducer, init);
   const [insertMsg, setInsertMsg] = useState("");
-  const [services, setServices] = useState([]);
   {/*to navigate again login page after registration*/ }
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/getServices");
-        if (response.ok) {
-          const data = await response.json();
-          setServices(data);
-        } else {
-          console.error("Failed to fetch services. Status:", response.status);
-        }
-      } catch (error) {
-        console.error("Error fetching services:", error.message);
-      }
-    };
-
-    fetchServices();
-  }, []);
 
   const validateData = (key, val) => {
     let valid = true;
@@ -76,12 +78,6 @@ export default function AddService() {
         }
         break;
 
-      case "service":
-        if (!val) {
-          valid = false;
-          error = "Please select a service";
-        }
-        break;
 
       default:
         break;
@@ -153,11 +149,11 @@ export default function AddService() {
           <form>
 
             <div className="mt-3 mb-3">
-              <label htmlFor="ServiceName" className="form-label"> Service Name </label>
-              <input type="text" id="ServiceName" name="ServiceName" className="form-control"
+              <label htmlFor="serviceName" className="form-label"> Service Name </label>
+              <input type="text" id="serviceName" name="serviceName" className="form-control"
                 value={bookings.serviceName.value}
-                onChange={(e) => { handleChange("ServiceName", e.target.value) }}
-                onBlur={(e) => { handleChange("ServiceName", e.target.value) }} />
+                onChange={(e) => { handleChange("serviceName", e.target.value) }}
+                onBlur={(e) => { handleChange("serviceName", e.target.value) }} />
             </div>
             <div style={{ color: "Red", display: bookings.serviceName.touched && !bookings.serviceName.valid ? "block" : "none" }}>
               {bookings.serviceName.error}
@@ -186,35 +182,9 @@ export default function AddService() {
               {bookings.cost.error}
             </div>
 
-            <div className="mt-3 mb-3">
-              <label htmlFor="service" className="form-label"> Category </label>
-              <select
-                id="service"
-                name="service"
-                className="form-control"
-                value={bookings.service.value}
-                onChange={(e) => {
-                  handleChange("service", e.target.value);
-                }}
-                onBlur={(e) => {
-                  handleChange("service", e.target.value);
-                }}
-              >
-                <option value="">Select</option>
-                {services.map((service) => (
-                  <option key={service.service_id} value={service.service_id}>
-                    {service.service_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div style={{ color: "Red", display: bookings.service.touched && !bookings.service.valid ? "block" : "none" }}>
-              {bookings.service.error}
-            </div>
-
 
             <div>
-              <input type="button" className="btn btn-primary btn-block" value="register" onClick={(e) => { submitData(e) }} />
+              <input type="button" className="btn btn-primary btn-block" value="Add" onClick={(e) => { submitData(e) }} />
               &nbsp;&nbsp;
               <input type="reset" className="btn btn-primary btn-block" value="Clear" onClick={() => { dispatch({ type: "reset" }); }} />
             </div>

@@ -14,12 +14,12 @@ export default function AdminHome() {
                     </li>
                     <li className="nav-item">
                         <Link to="addcategory" className="nav-link">Add Category</Link>
-                    </li>
+                    </li>   
 
                     <li className="nav-item">
-                        <Link to="addservice" className="nav-link">Add Services</Link>
-                    </li>
-                    
+                        <Link to="addservice" className="nav-link">Add Service</Link>
+                    </li>   
+
                     {/*approve vendor registration request => Approvement Component*/}
                     <li className="nav-item">
                         <Link to="approvevendor" className="nav-link">Approve Vendor</Link>

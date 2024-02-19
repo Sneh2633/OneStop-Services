@@ -86,6 +86,7 @@ export default function Login() {
   
           if (data && data.roleid) {
             //for admin check
+            localStorage.setItem("loggedUser",JSON.stringify(data));
             if (data.roleid.rid === 1) {
               navigate("/adminhome");
               myaction(login(data));
