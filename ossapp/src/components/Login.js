@@ -86,7 +86,20 @@ export default function Login() {
   
           if (data && data.roleid) {
             //for admin check
-            localStorage.setItem("loggedUser",JSON.stringify(data));
+            useEffect(()=> {
+        const userid = JSON.parse(localStorage.getItem("loggedUser")).user_id;
+        console.log(userid)
+        fetch("http://localhost:8080/getVendor?userid="+userid)
+        .then(resp => {
+            console.log(resp.status)
+            if(resp.ok)
+                return resp.json();
+            else
+                throw new Error("server error")
+        })
+        .then(obj => localStorage.setItem("loggedVendor",JSON.stringify(obj)))
+        .catch(error => console.log(error.toString()))
+    },[])
             if (data.roleid.rid === 1) {
               navigate("/adminhome");
               myaction(login(data));
