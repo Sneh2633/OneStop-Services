@@ -1,6 +1,11 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +47,10 @@ public class OrderController {
 	         
 	    	Order o=new Order(customer,vendor,services,order.getBookingDatetime(),order.getStatus());
 	      return  oservice.saveOrder(o);  
+	    }
+	 @GetMapping("/customer-details/vendor/{vendorId}")
+	    public ResponseEntity<List<Customer>> getCustomerDetailsForVendor(@PathVariable int vendorId) {
+	        List<Customer> customers = oservice.getCustomerDetailsForVendor(vendorId);
+	        return ResponseEntity.ok(customers);
 	    }
 }
