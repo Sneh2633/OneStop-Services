@@ -1,8 +1,6 @@
 package com.example.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,8 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Service;
 import com.example.demo.entities.Services;
-import com.example.demo.repositories.ServiceRepository;
-import com.example.demo.repositories.ServicesRepository;
 import com.example.demo.request.SubServiceRequest;
 import com.example.demo.services.ServiceService;
 import com.example.demo.services.ServicesService;
