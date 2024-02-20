@@ -33,5 +33,9 @@ public class ServicesService {
 	        Optional<Services> services = sr.findById(id);
 	        return services.orElse(null);
 	    }
+	 
+	 public List<Services> getServicesByCategoryId(int categoryId) {
+	        return sr.findByCategoryId(categoryId);
+	    }
 
 }
