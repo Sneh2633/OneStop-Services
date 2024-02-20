@@ -105,6 +105,34 @@ export default function SearchVendor() {
         }
     };
 
+    const handleRequest = async () => {
+        try {
+            const bookingDatetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); // Format date to "yyyy-MM-dd hh:mm:ss"
+    
+            const response = await fetch("http://localhost:8080/saveOrder", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    vendorId: serviceDetails.vendor_id,
+                    customerId: serviceDetails.vendor_id,
+                    servicesId: bookings.service.value,
+                    bookingDatetime: bookingDatetime,
+                    status: 0,
+                }),
+            });
+    
+            if (response.ok) {
+                setInsertMsg("Order placed successfully!");
+            } else {
+                console.error("Failed to place order. Status:", response.status);
+            }
+        } catch (error) {
+            console.error("Error placing order:", error.message);
+        }
+    };
+
     return (
         <div className="container">
             <div className="row">
@@ -170,7 +198,7 @@ export default function SearchVendor() {
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to={`/customerhome/searchvendors/VendorFeedback/${vendor.vendor_id}`}>VendorFeedback</Link></td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/customerhome/searchvendors/ServiceCost">ServiceCost</Link></td>
                                             <td>
-                                                <button>Request</button>
+                                                <button type="button" className="btn btn-success" onClick={() => handleRequest()}>Request</button>
                                             </td>
                                         </tr>
                                     ))}
