@@ -1,5 +1,8 @@
 package com.example.demo.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +35,13 @@ public class ServiceCostService {
 		sc.setService_id(s);
 		sc.setVendor_id(v);
 		return scr.save(sc);
+	}
+
+	public List<Vendor> findAllVendorsBasedOnServices(int subServiceId) {
+		List<ServiceCost> serviceCosts  = scr.findAllByService_id(subServiceId);
+		List<Vendor> vendors = new ArrayList<>();
+		
+		serviceCosts.forEach(serviceCost -> vendors.add(serviceCost.getVendor_id()));
+		return vendors;
 	}
 }

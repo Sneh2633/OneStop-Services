@@ -1,9 +1,30 @@
-import { useSelector } from "react-redux";
+import { useSelector  } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-import { Navbar, NavDropdown } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
+import { useEffect } from "react";
 
 export default function CustomerHome() {
-    const mystate = useSelector(state => state.logged);
+    const user = useSelector(state => state.logged.user); 
+    console.log(user)
+    //const mystate = useSelector(state => state.logged);
+    
+    useEffect(()=> {
+        const userid =user.user_id;
+        console.log(userid)
+        fetch("http://localhost:8080/getCustomer?userid="+userid)
+        .then(resp => {
+            console.log(resp.status)
+            if(resp.ok)
+                return resp.json();
+            else
+                throw new Error("server error")
+        })
+        .then(obj => localStorage.setItem("loggedCustomer",JSON.stringify(obj)))
+        .catch(error => console.log(error.toString()))
+    },[])
+
+    const mystate = useSelector(state => state.logged)
+
     return (
         <div>
             <h1 style={{ marginLeft: 530 }}>OneStop Services</h1>

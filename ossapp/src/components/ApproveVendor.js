@@ -20,7 +20,7 @@ const ApproveVendor = () => {
             setVendors(data);
         } catch (error) {
             console.error("Error fetching vendors:", error.message);
-        }
+        } 
     };
 
     const approveVendor = async (vendorId) => {

@@ -5,13 +5,12 @@ import { useNavigate, Link } from "react-router-dom";
 export default function SearchVendor() {
     const init = {
         service: { value: "", valid: false, touched: false, error: "" },
+        subservice: { value: "", valid: false, touched: false, error: "" }
     };
 
     const user = useSelector((state) => state.logged.user);
-    console.log('from search vendor'+user);
+    console.log('from search vendor' + user);
 
-    //to request the specific vendor
-    
     const reducer = (state, action) => {
         switch (action.type) {
             case "update":
@@ -28,6 +27,7 @@ export default function SearchVendor() {
     const [insertMsg, setInsertMsg] = useState("");
     const [services, setServices] = useState([]);
     const [serviceDetails, setServiceDetails] = useState(null);
+    const [subservices, setSubservices] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,6 +48,20 @@ export default function SearchVendor() {
         fetchServices();
     }, []);
 
+    const fetchSubservices = async (categoryId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/category/${categoryId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setSubservices(data);
+            } else {
+                console.error("Failed to fetch subservices. Status:", response.status);
+            }
+        } catch (error) {
+            console.error("Error fetching subservices:", error.message);
+        }
+    };
+
     const validateData = (key, val) => {
         let valid = true;
         let error = "";
@@ -57,6 +71,13 @@ export default function SearchVendor() {
                 if (!val) {
                     valid = false;
                     error = "Please select a service";
+                }
+                break;
+
+            case "subservice":
+                if (!val) {
+                    valid = false;
+                    error = "Please select a subservice";
                 }
                 break;
 
@@ -87,15 +108,30 @@ export default function SearchVendor() {
         }
     };
 
-    const handleChange = (key, value) => {
+    const handleChange = async (key, value) => {
         const { valid, error } = validateData(key, value);
         dispatch({ type: "update", data: { key, value, touched: true, valid, error } });
+        console.log('category id ' +key)
+        if (key === "service" && valid) {
+            try {
+                const response = await fetch(`http://localhost:8080/category/${value}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('subservices'+data);
+                    setServiceDetails(data);
+                } else {
+                    console.error("Failed to fetch service details. Status:", response.status);
+                }
+            } catch (error) {
+                console.error("Error fetching service details:", error.message);
+            }
+        }
     };
 
     const handleRequest = async () => {
         try {
-            const bookingDatetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); // Format date to "yyyy-MM-dd hh:mm:ss"
-    
+            const bookingDatetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+
             const response = await fetch("http://localhost:8080/saveOrder", {
                 method: "POST",
                 headers: {
@@ -109,7 +145,11 @@ export default function SearchVendor() {
                     status: 0,
                 }),
             });
-    
+
+            const existingRequests = JSON.parse(localStorage.getItem('customerRequests')) || [];
+            existingRequests.push(response);
+            localStorage.setItem('customerRequests', JSON.stringify(existingRequests));
+
             if (response.ok) {
                 setInsertMsg("Order placed successfully!");
             } else {
@@ -123,8 +163,7 @@ export default function SearchVendor() {
     return (
         <div className="container">
             <div className="row">
-                <div className="col">
-                </div>
+                <div className="col"></div>
                 <div className="col">
                     <h1> Search Vendor </h1>
                     <form>
@@ -137,7 +176,7 @@ export default function SearchVendor() {
                                 value={bookings.service.value}
                                 onChange={(e) => {
                                     handleChange("service", e.target.value);
-                                    fetchServiceDetails(); // Fetch details immediately on selection change
+                                    fetchServiceDetails();
                                 }}
                                 onBlur={(e) => {
                                     handleChange("service", e.target.value);
@@ -153,6 +192,29 @@ export default function SearchVendor() {
                         </div>
                         <div style={{ color: "red" }}>
                             {bookings.service.error}
+                        </div>
+
+                        <div className="mt-3 mb-3">
+                            <label htmlFor="subservice" className="form-label">
+                                SubServices
+                            </label>
+                            <select
+                                id="subservice"
+                                name="subservice"
+                                className="form-control"
+                                value={bookings.subservice.value}
+                                onChange={(e) => handleChange("subservice", e.target.value)}
+                            >
+                                <option value="">Select</option>
+                                {subservices.map((subservice) => (
+                                    <option key={subservice.service_id} value={subservice.service_id}>
+                                        {subservice.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div style={{ color: "Red", display: bookings.subservice.touched && !bookings.subservice.valid ? "block" : "none" }}>
+                            {bookings.subservice.error}
                         </div>
                     </form>
 
@@ -170,7 +232,6 @@ export default function SearchVendor() {
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>ViewFeedback</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>ServiceDetails</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>MakeRequest</th>
-                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -194,10 +255,9 @@ export default function SearchVendor() {
                         </div>
                     )}
                 </div>
-                <div className="col">
-                </div>
+                <div className="col"></div>
             </div>
             <h1> {insertMsg} </h1>
         </div>
     );
-}
+};
