@@ -1,9 +1,8 @@
-import { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AddService() {
-  const init = {
-    cost: { value: "", valid: false, touched: false, error: "" },
+  const initialState = {
     description: { value: "", valid: false, touched: false, error: "" },
     serviceName: { value: "", valid: false, touched: false, error: "" },
     service: { value: "", valid: false, touched: false, error: "" },
@@ -15,16 +14,15 @@ export default function AddService() {
         const { key, value, touched, valid, error } = action.data;
         return { ...state, [key]: { value, touched, valid, error } };
       case "reset":
-        return init;
+        return initialState;
       default:
         return state;
     }
   };
 
-  const [bookings, dispatch] = useReducer(reducer, init);
-  const [insertMsg, setInsertMsg] = useState("");
+  const [bookings, dispatch] = useReducer(reducer, initialState);
   const [services, setServices] = useState([]);
-  {/*to navigate again login page after registration*/ }
+  const [insertMsg, setInsertMsg] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,14 +48,11 @@ export default function AddService() {
     let error = "";
 
     switch (key) {
-
-
-
       case "serviceName":
         var pattern2 = /.+/;
         if (!pattern2.test(val)) {
           valid = false;
-          error = "Invalid description";
+          error = "Invalid service name";
         }
         break;
 
@@ -66,13 +61,6 @@ export default function AddService() {
         if (!pattern.test(val)) {
           valid = false;
           error = "Invalid description";
-        }
-        break;
-      case "cost":
-        var pattern1 = /^\d+$/;
-        if (!pattern1.test(val)) {
-          valid = false;
-          error = "Invalid cost";
         }
         break;
 
@@ -88,7 +76,7 @@ export default function AddService() {
     }
 
     console.log(`Validation for ${key}: valid=${valid}, error=${error}`);
-    return { valid: valid, error: error };
+    return { valid, error };
   };
 
   const handleChange = (key, value) => {
@@ -97,34 +85,26 @@ export default function AddService() {
     console.log("Updated State:", bookings);
   };
 
-
-  const submitData = (e) => {
-    e.preventDefault();
+  const submitData = () => {
     const isFormValid = Object.values(bookings).every((field) => field.valid);
 
     if (isFormValid) {
-      console.log(JSON.stringify(bookings));
+      console.log(bookings);
       const reqOptions = {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           description: bookings.description.value,
-          serviceName: bookings.serviceName.value,
-          cost: bookings.cost.value,
-          serviceid: parseInt(bookings.service.value), // Use serviceid instead of service
-          //price: bookings.price.value
+          name: bookings.serviceName.value,
+          categoryId: parseInt(bookings.service.value),
         }),
       };
 
-      fetch("http://localhost:8080/regVendor", reqOptions)
+      fetch("http://localhost:8080/addsubServices", reqOptions)
         .then((res) => {
           if (res.status === 200) {
-            setInsertMsg("Registration successful");
-            alert("Registration successfull");
-
-            {/*to navigate to login page */ }
-            navigate("/login");
-
+            setInsertMsg("Subservice added successfully");
+            // navigate("/adminhome");
           } else if (res.status === 400) {
             return res.json().then((data) => {
               console.error("Validation error:", data);
@@ -136,69 +116,36 @@ export default function AddService() {
         })
         .catch((error) => {
           console.error("There was a problem with the fetch operation:", error.message);
-          setInsertMsg("Registration failed. Please try again later.");
+          setInsertMsg("Subservice registration failed. Please try again later.");
         });
     } else {
       console.log("Form has validation errors. Please fix them before submitting.");
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    submitData();
+  };
+
   return (
     <div className="container">
       <div className="row">
+        <div className="col"></div>
         <div className="col">
-        </div>
-        <div className="col">
-          <h1> Service Details </h1>
-          <form>
-
+          <h1>Service Details</h1>
+          <form onSubmit={handleSubmit}>
             <div className="mt-3 mb-3">
-              <label htmlFor="ServiceName" className="form-label"> Service Name </label>
-              <input type="text" id="ServiceName" name="ServiceName" className="form-control"
-                value={bookings.serviceName.value}
-                onChange={(e) => { handleChange("ServiceName", e.target.value) }}
-                onBlur={(e) => { handleChange("ServiceName", e.target.value) }} />
-            </div>
-            <div style={{ color: "Red", display: bookings.serviceName.touched && !bookings.serviceName.valid ? "block" : "none" }}>
-              {bookings.serviceName.error}
-            </div>
-
-
-            <div className="mt-3 mb-3">
-              <label htmlFor="description" className="form-label"> Description </label>
-              <input type="text" id="description" name="description" className="form-control"
-                value={bookings.description.value}
-                onChange={(e) => { handleChange("description", e.target.value) }}
-                onBlur={(e) => { handleChange("description", e.target.value) }} />
-            </div>
-            <div style={{ color: "Red", display: bookings.description.touched && !bookings.description.valid ? "block" : "none" }}>
-              {bookings.description.error}
-            </div>
-
-            <div className="mt-3 mb-3">
-              <label htmlFor="cost" className="form-label"> Cost </label>
-              <input type="number" id="cost" name="cost" className="form-control"
-                value={bookings.cost.value}
-                onChange={(e) => { handleChange("cost", e.target.value) }}
-                onBlur={(e) => { handleChange("cost", e.target.value) }} />
-            </div>
-            <div style={{ color: "Red", display: bookings.cost.touched && !bookings.cost.valid ? "block" : "none" }}>
-              {bookings.cost.error}
-            </div>
-
-            <div className="mt-3 mb-3">
-              <label htmlFor="service" className="form-label"> Category </label>
+              <label htmlFor="service" className="form-label">
+                Category
+              </label>
               <select
                 id="service"
                 name="service"
                 className="form-control"
                 value={bookings.service.value}
-                onChange={(e) => {
-                  handleChange("service", e.target.value);
-                }}
-                onBlur={(e) => {
-                  handleChange("service", e.target.value);
-                }}
+                onChange={(e) => handleChange("service", e.target.value)}
+                onBlur={(e) => handleChange("service", e.target.value)}
               >
                 <option value="">Select</option>
                 {services.map((service) => (
@@ -212,18 +159,65 @@ export default function AddService() {
               {bookings.service.error}
             </div>
 
+            <div className="mt-3 mb-3">
+              <label htmlFor="serviceName" className="form-label">
+                Service Name
+              </label>
+              <input
+                type="text"
+                id="serviceName"
+                name="serviceName"
+                className="form-control"
+                value={bookings.serviceName.value}
+                onChange={(e) => handleChange("serviceName", e.target.value)}
+                onBlur={(e) => handleChange("serviceName", e.target.value)}
+              />
+            </div>
+            <div style={{ color: "Red", display: bookings.serviceName.touched && !bookings.serviceName.valid ? "block" : "none" }}>
+              {bookings.serviceName.error}
+            </div>
+
+            <div className="mt-3 mb-3">
+              <label htmlFor="description" className="form-label">
+                Description
+              </label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                className="form-control"
+                value={bookings.description.value}
+                onChange={(e) => handleChange("description", e.target.value)}
+                onBlur={(e) => handleChange("description", e.target.value)}
+              />
+            </div>
+            <div style={{ color: "Red", display: bookings.description.touched && !bookings.description.valid ? "block" : "none" }}>
+              {bookings.description.error}
+            </div>
 
             <div>
-              <input type="button" className="btn btn-primary btn-block" value="register" onClick={(e) => { submitData(e) }} />
+              <input type="submit" className="btn btn-primary btn-block" value="Register" />
               &nbsp;&nbsp;
-              <input type="reset" className="btn btn-primary btn-block" value="Clear" onClick={() => { dispatch({ type: "reset" }); }} />
+              <input
+                type="reset"
+                className="btn btn-primary btn-block"
+                value="Clear"
+                onClick={() => {
+                  dispatch({ type: "reset" });
+                  setInsertMsg("");
+                }}
+              />
             </div>
           </form>
+
+          {insertMsg && (
+            <div className="alert alert-success mt-3" role="alert">
+              {insertMsg}
+            </div>
+          )}
         </div>
-        <div className="col">
-        </div>
+        <div className="col"></div>
       </div>
-      <h1> {insertMsg} </h1>
     </div>
   );
-};
+}
