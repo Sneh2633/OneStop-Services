@@ -49,18 +49,16 @@ export default function AddService() {
 
     switch (key) {
       case "serviceName":
-        var pattern2 = /.+/;
-        if (!pattern2.test(val)) {
+        if (!val.trim()) {
           valid = false;
-          error = "Invalid service name";
+          error = "Service name is required";
         }
         break;
 
       case "description":
-        var pattern = /.+/;
-        if (!pattern.test(val)) {
+        if (!val.trim()) {
           valid = false;
-          error = "Invalid description";
+          error = "Description is required";
         }
         break;
 
@@ -75,21 +73,18 @@ export default function AddService() {
         break;
     }
 
-    console.log(`Validation for ${key}: valid=${valid}, error=${error}`);
     return { valid, error };
   };
 
   const handleChange = (key, value) => {
     const { valid, error } = validateData(key, value);
     dispatch({ type: "update", data: { key, value, touched: true, valid, error } });
-    console.log("Updated State:", bookings);
   };
 
   const submitData = () => {
     const isFormValid = Object.values(bookings).every((field) => field.valid);
 
     if (isFormValid) {
-      console.log(bookings);
       const reqOptions = {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -102,7 +97,7 @@ export default function AddService() {
 
       fetch("http://localhost:8080/addsubServices", reqOptions)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.ok) {
             setInsertMsg("Subservice added successfully");
             navigate("/adminhome");
           } else if (res.status === 400) {
@@ -128,6 +123,11 @@ export default function AddService() {
     submitData();
   };
 
+  const handleReset = () => {
+    dispatch({ type: "reset" });
+    setInsertMsg("");
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -145,7 +145,6 @@ export default function AddService() {
                 className="form-control"
                 value={bookings.service.value}
                 onChange={(e) => handleChange("service", e.target.value)}
-                onBlur={(e) => handleChange("service", e.target.value)}
               >
                 <option value="">Select</option>
                 {services.map((service) => (
@@ -170,7 +169,6 @@ export default function AddService() {
                 className="form-control"
                 value={bookings.serviceName.value}
                 onChange={(e) => handleChange("serviceName", e.target.value)}
-                onBlur={(e) => handleChange("serviceName", e.target.value)}
               />
             </div>
             <div style={{ color: "Red", display: bookings.serviceName.touched && !bookings.serviceName.valid ? "block" : "none" }}>
@@ -188,7 +186,6 @@ export default function AddService() {
                 className="form-control"
                 value={bookings.description.value}
                 onChange={(e) => handleChange("description", e.target.value)}
-                onBlur={(e) => handleChange("description", e.target.value)}
               />
             </div>
             <div style={{ color: "Red", display: bookings.description.touched && !bookings.description.valid ? "block" : "none" }}>
@@ -198,15 +195,9 @@ export default function AddService() {
             <div>
               <input type="submit" className="btn btn-primary btn-block" value="Register" />
               &nbsp;&nbsp;
-              <input
-                type="reset"
-                className="btn btn-primary btn-block"
-                value="Clear"
-                onClick={() => {
-                  dispatch({ type: "reset" });
-                  setInsertMsg("");
-                }}
-              />
+              <button type="button" className="btn btn-primary btn-block" onClick={handleReset}>
+                Clear
+              </button>
             </div>
           </form>
 
@@ -220,5 +211,4 @@ export default function AddService() {
       </div>
     </div>
   );
-
 }

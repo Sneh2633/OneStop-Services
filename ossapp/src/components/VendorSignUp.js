@@ -28,6 +28,7 @@ export default function VendorSignUp() {
 
     const [bookings, dispatch] = useReducer(reducer, init);
     const [insertMsg, setInsertMsg] = useState("");
+    
     const [services, setServices] = useState([]);
     {/*to navigate again login page after registration*/}
     const navigate = useNavigate();

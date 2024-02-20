@@ -1,4 +1,4 @@
-import { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../loggedSlice";
@@ -59,7 +59,27 @@ export default function Login() {
     dispatch({ type: "update", data: { key, value, touched: true, valid, error } });
   };
 
-  // 
+  // Moved useEffect outside of the callback function
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userid = JSON.parse(localStorage.getItem("loggedUser")).user_id;
+        console.log(userid)
+        const response = await fetch("http://localhost:8080/getVendor?userid=" + userid);
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem("loggedVendor", JSON.stringify(data));
+        } else {
+          throw new Error("Server error");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const submitData = (e) => {
     e.preventDefault();
     const isFormValid = Object.values(bookings).every((field) => field.valid);
@@ -82,51 +102,28 @@ export default function Login() {
           return res.json();
         })
         .then((data) => {
-          
-  
           if (data && data.roleid) {
-            //for admin check
-            useEffect(()=> {
-        const userid = JSON.parse(localStorage.getItem("loggedUser")).user_id;
-        console.log(userid)
-        fetch("http://localhost:8080/getVendor?userid="+userid)
-        .then(resp => {
-            console.log(resp.status)
-            if(resp.ok)
-                return resp.json();
-            else
-                throw new Error("server error")
-        })
-        .then(obj => localStorage.setItem("loggedVendor",JSON.stringify(obj)))
-        .catch(error => console.log(error.toString()))
-    },[])
             if (data.roleid.rid === 1) {
               navigate("/adminhome");
               myaction(login(data));
-            }
-            //for customer check
-            else if (data.roleid.rid === 2) {
+            } else if (data.roleid.rid === 2) {
               console.log("valid ");
               console.log("after dispatch");
               navigate("/customerhome");
               myaction(login(data));
-            }
-            //for vendor check
-            else if (data.roleid.rid === 3) {
+            } else if (data.roleid.rid === 3) {
               console.log("valid ");
               console.log("after dispatch");
               navigate("/vendorhome");
               myaction(login(data));
             }
           } else {
-            // Handle invalid login or missing data
             setInsertMsg("Invalid login or missing data");
           }
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
           setInsertMsg("Server is not reachable or network error occurred. Please try again later.");
-          //alert("Server error");
         });
     } else {
       console.log("Form has validation errors. Please fix them before submitting.");
