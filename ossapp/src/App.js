@@ -17,6 +17,7 @@ import UpdateService from './components/UpdateService';
 import VendorFeedback from './components/VendorFeedback';
 import AddCategory from './components/AddCategory';
 import ServiceCost from './components/ServiceCost';
+import AddCost from './components/AddCost';
 
 function App() {
   const mystate = useSelector(state => state.logged);
@@ -55,6 +56,7 @@ function App() {
         <Route path="/vendorhome" element={<VendorHome />} >
           <Route path="customerrequests" element={<CustomerRequest />} />
           <Route path="updateservices" element={<UpdateService />} />
+          <Route path="addCost" element={<AddCost />} />
           <Route path="logout" element={<Logout />} />
         </Route>
 

@@ -4,9 +4,10 @@ import { Navbar } from 'react-bootstrap';
 import { useEffect } from "react";
 export default function VendorHome() {
 
-
+    const user = useSelector(state => state.logged.user); 
+    console.log(user)
     useEffect(()=> {
-        const userid = JSON.parse(localStorage.getItem("loggedUser")).user_id;
+        const userid =user.user_id;
         console.log(userid)
         fetch("http://localhost:8080/getVendor?userid="+userid)
         .then(resp => {
@@ -34,7 +35,7 @@ export default function VendorHome() {
                     </li>
 
                     <li className="nav-item">
-                        <Link to="addservice" className="nav-link">Add Services</Link>
+                        <Link to="addCost" className="nav-link">Add Cost</Link>
                     </li>
 
                     <li className="nav-item">

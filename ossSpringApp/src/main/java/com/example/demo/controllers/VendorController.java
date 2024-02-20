@@ -22,7 +22,7 @@ import com.example.demo.services.ServiceService;
 import com.example.demo.services.UserService;
 import com.example.demo.services.VendorService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RestController
 public class VendorController {
 	@Autowired

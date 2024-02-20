@@ -1,10 +1,10 @@
 import React, { useState, useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function AddService() {
+export default function AddCost() {
   const initialState = {
-    description: { value: "", valid: false, touched: false, error: "" },
-    serviceName: { value: "", valid: false, touched: false, error: "" },
+    cost: { value: "", valid: false, touched: false, error: "" },
+    subservice: { value: "", valid: false, touched: false, error: "" },
     service: { value: "", valid: false, touched: false, error: "" },
   };
 
@@ -22,6 +22,7 @@ export default function AddService() {
 
   const [bookings, dispatch] = useReducer(reducer, initialState);
   const [services, setServices] = useState([]);
+  const [subservices, setSubservices] = useState([]);
   const [insertMsg, setInsertMsg] = useState("");
   const navigate = useNavigate();
 
@@ -43,22 +44,39 @@ export default function AddService() {
     fetchServices();
   }, []);
 
+  const fetchSubservices = async (categoryId) => {
+    try {
+      //const response = await fetch(`http://localhost:8080/getSubservices?categoryId=${categoryId}`);
+     const response = await fetch(`http://localhost:8080/getallsubservices`);
+      if (response.ok) {
+        const data = await response.json();
+        setSubservices(data);
+        console.log(data);
+      } else {
+        console.error("Failed to fetch subservices. Status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error fetching subservices:", error.message);
+    }
+  };
+
   const validateData = (key, val) => {
     let valid = true;
     let error = "";
 
     switch (key) {
-      case "serviceName":
-        if (!val.trim()) {
+      case "subservice":
+        if (!val) {
           valid = false;
-          error = "Service name is required";
+          error = "Please select a subservice";
         }
         break;
 
-      case "description":
-        if (!val.trim()) {
+      case "cost":
+        var pattern = /^[0-9]{5}$/;
+        if (!pattern.test(val)) {
           valid = false;
-          error = "Description is required";
+          error = "Invalid Cost";
         }
         break;
 
@@ -66,6 +84,8 @@ export default function AddService() {
         if (!val) {
           valid = false;
           error = "Please select a service";
+        } else {
+          fetchSubservices(val); // Fetch subservices based on selected service
         }
         break;
 
@@ -89,16 +109,15 @@ export default function AddService() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          description: bookings.description.value,
-          name: bookings.serviceName.value,
-          categoryId: parseInt(bookings.service.value),
+          cost: bookings.cost.value,
+          subserviceId: parseInt(bookings.subservice.value),
         }),
       };
 
-      fetch("http://localhost:8080/addsubServices", reqOptions)
+      fetch("http://localhost:8080/savecost", reqOptions)
         .then((res) => {
           if (res.ok) {
-            setInsertMsg("Subservice added successfully");
+            setInsertMsg("Cost added successfully");
             // navigate("/adminhome");
           } else if (res.status === 400) {
             return res.json().then((data) => {
@@ -159,37 +178,43 @@ export default function AddService() {
             </div>
 
             <div className="mt-3 mb-3">
-              <label htmlFor="serviceName" className="form-label">
-                Service Name
+              <label htmlFor="subservice" className="form-label">
+                SubServices
               </label>
-              <input
-                type="text"
-                id="serviceName"
-                name="serviceName"
+              <select
+                id="subservice"
+                name="subservice"
                 className="form-control"
-                value={bookings.serviceName.value}
-                onChange={(e) => handleChange("serviceName", e.target.value)}
-              />
+                value={bookings.subservice.value}
+                onChange={(e) => handleChange("subservice", e.target.value)}
+              >
+                <option value="">Select</option>
+                {subservices.map((subservice) => (
+                  <option key={subservice.service_id} value={subservice.service_id}>
+                    {subservice.subservice_name}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div style={{ color: "Red", display: bookings.serviceName.touched && !bookings.serviceName.valid ? "block" : "none" }}>
-              {bookings.serviceName.error}
+            <div style={{ color: "Red", display: bookings.subservice.touched && !bookings.subservice.valid ? "block" : "none" }}>
+              {bookings.subservice.error}
             </div>
 
             <div className="mt-3 mb-3">
-              <label htmlFor="description" className="form-label">
-                Description
+              <label htmlFor="cost" className="form-label">
+                Cost
               </label>
               <input
                 type="text"
-                id="description"
-                name="description"
+                id="cost"
+                name="cost"
                 className="form-control"
-                value={bookings.description.value}
-                onChange={(e) => handleChange("description", e.target.value)}
+                value={bookings.cost.value}
+                onChange={(e) => handleChange("cost", e.target.value)}
               />
             </div>
-            <div style={{ color: "Red", display: bookings.description.touched && !bookings.description.valid ? "block" : "none" }}>
-              {bookings.description.error}
+            <div style={{ color: "Red", display: bookings.cost.touched && !bookings.cost.valid ? "block" : "none" }}>
+              {bookings.cost.error}
             </div>
 
             <div>

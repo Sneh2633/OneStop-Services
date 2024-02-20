@@ -40,6 +40,8 @@ public class OrderController {
 	
 	 @PostMapping("/saveOrder")
 	    public Order saveOrder(@RequestBody OrderDTO order) {
+		 
+		 System.out.println(order);
 	    	
 	    	 Vendor vendor = vservice.findById(order.getVendorId());
 	         

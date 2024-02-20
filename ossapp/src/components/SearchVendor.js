@@ -102,8 +102,8 @@ export default function SearchVendor() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    vendorId: serviceDetails.vendor_id,
-                    customerId: serviceDetails.vendor_id,
+                    vendorId: serviceDetails[0].vendor_id,
+                    customerId: user.user_id,
                     servicesId: bookings.service.value,
                     bookingDatetime: bookingDatetime,
                     status: 0,

@@ -99,6 +99,7 @@ export default function Login() {
           if (!res.ok) {
             throw new Error("Network response was not ok");
           }
+          console.log(res)
           return res.json();
         })
         .then((data) => {
