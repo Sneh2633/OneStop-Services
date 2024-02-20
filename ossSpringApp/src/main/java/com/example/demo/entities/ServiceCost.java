@@ -22,7 +22,7 @@ public class ServiceCost {
 	
 	@ManyToOne
 	@JoinColumn(name="service_id")
-	Service service_id;
+	Services service_id;
 	
 	@ManyToOne
 	@JoinColumn(name="vendor_id")

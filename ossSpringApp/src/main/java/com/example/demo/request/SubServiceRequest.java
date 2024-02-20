@@ -10,4 +10,7 @@ public class SubServiceRequest {
 	String description;
 	
 	int categoryId;
+	
+	
+	
 }

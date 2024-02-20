@@ -280,7 +280,7 @@ export default function VendorSignUp() {
 
 
                         <div>
-                            <input type="button" className="btn btn-primary btn-block" value="register" onClick={(e) => { submitData(e) }} />
+                            <input type="button" className="btn btn-primary btn-block" value="Register" onClick={(e) => { submitData(e) }} />
                             &nbsp;&nbsp;
                             <input type="reset" className="btn btn-primary btn-block" value="Clear" onClick={() => { dispatch({ type: "reset" }); }} />
                         </div>
