@@ -61,8 +61,8 @@ function App() {
         <Route path="/adminhome" element={<AdminHome />} >
           <Route path="logout" element={<Logout />} />
           <Route path="addcategory" element={<AddCategory />} />
-          <Route path="approvevendor" element={<ApproveVendor />} />
           <Route path="addservice" element={<AddService />} />
+          <Route path="approvevendor" element={<ApproveVendor />} />
         </Route>
       </Routes>
     </div>

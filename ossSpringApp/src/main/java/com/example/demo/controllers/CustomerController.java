@@ -11,7 +11,6 @@ import com.example.demo.entities.Customer;
 import com.example.demo.entities.CustomerRegistration;
 import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
-import com.example.demo.entities.Vendor;
 import com.example.demo.services.CustomerService;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;

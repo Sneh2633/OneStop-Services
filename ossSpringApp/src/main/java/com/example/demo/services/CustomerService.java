@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Customer;
 import com.example.demo.entities.User;
-import com.example.demo.entities.Vendor;
 import com.example.demo.repositories.CustomerRepository;
 
 @Service

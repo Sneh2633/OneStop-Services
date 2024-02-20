@@ -1,15 +1,13 @@
 import React, { useState, useReducer, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function SearchVendor() {
     const init = {
         service: { value: "", valid: false, touched: false, error: "" },
     };
 
-    const user = useSelector((state) =>
-
-     state.logged.user);
+    const user = useSelector((state) => state.logged.user);
     console.log('from search vendor'+user);
 
     //to request the specific vendor
@@ -69,13 +67,11 @@ export default function SearchVendor() {
         return { valid: valid, error: error };
     };
 
- 
-
-
-    const handleChange = (key, value) => {
-        const { valid, error } = validateData(key, value);
-        dispatch({ type: "update", data: { key, value, touched: true, valid, error } });
-    };
+    useEffect(() => {
+        if (bookings.service.valid) {
+            fetchServiceDetails();
+        }
+    }, [bookings.service.valid]);
 
     const fetchServiceDetails = async () => {
         try {
@@ -91,18 +87,9 @@ export default function SearchVendor() {
         }
     };
 
-    useEffect(() => {
-        if (bookings.service.valid) {
-            fetchServiceDetails();
-        }
-    }, [bookings.service.valid]);
-
-    const handleShowDetails = () => {
-        if (bookings.service.valid) {
-            fetchServiceDetails();
-        } else {
-            setInsertMsg("Please select a service first.");
-        }
+    const handleChange = (key, value) => {
+        const { valid, error } = validateData(key, value);
+        dispatch({ type: "update", data: { key, value, touched: true, valid, error } });
     };
 
     return (
@@ -122,6 +109,7 @@ export default function SearchVendor() {
                                 value={bookings.service.value}
                                 onChange={(e) => {
                                     handleChange("service", e.target.value);
+                                    fetchServiceDetails(); // Fetch details immediately on selection change
                                 }}
                                 onBlur={(e) => {
                                     handleChange("service", e.target.value);
@@ -138,7 +126,6 @@ export default function SearchVendor() {
                         <div style={{ color: "red" }}>
                             {bookings.service.error}
                         </div>
-                        <button type="button" className="btn btn-primary" onClick={handleShowDetails}>Show Details</button>
                     </form>
 
                     {serviceDetails && (
@@ -153,7 +140,7 @@ export default function SearchVendor() {
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Address</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Contact</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>ViewFeedback</th>
-                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>ViewCost</th>
+                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>ServiceDetails</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>MakeRequest</th>
                                         
                                     </tr>
@@ -168,7 +155,7 @@ export default function SearchVendor() {
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.address}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.contact_number}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to={`/customerhome/searchvendors/VendorFeedback/${vendor.vendor_id}`}>VendorFeedback</Link></td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/customerhome/searchvendors/ServiceCost">ServiceCost</Link></td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/customerhome/searchvendors/ServiceCost">serviceDetails</Link></td>
                                             <td>
                                                 <button>Request</button>
                                             </td>
@@ -186,6 +173,3 @@ export default function SearchVendor() {
         </div>
     );
 }
-
-
-
