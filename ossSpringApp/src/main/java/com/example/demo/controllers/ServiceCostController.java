@@ -55,5 +55,10 @@ public class ServiceCostController {
 		return scs.updateCost(updatedCost);
 	}
 	
+	//service details
+		@GetMapping("/service/{serviceId}")
+	    public List<Object[]> getServiceDetailsByServiceId(@PathVariable int serviceId) {
+	        return scs.findServiceDetailsByServiceId(serviceId);
+	    }
 
 }

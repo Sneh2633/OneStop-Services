@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.ServiceCost;
@@ -20,5 +21,7 @@ public interface ServiceCostRepository extends JpaRepository<ServiceCost, Intege
 	@Query("SELECT s FROM ServiceCost s WHERE s.vendor_id=:v")
 	List<ServiceCost> findAllByVendor_id(Vendor v);
 
-
+	@Query("SELECT sc.cost, s.name, s.description FROM ServiceCost sc JOIN sc.service_id s WHERE s.service_id = :serviceId")
+	List<Object[]> findServiceDetailsByServiceId(@Param("serviceId") int serviceId);
+	
 }

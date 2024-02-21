@@ -74,4 +74,9 @@ public class ServiceCostService {
 		serviceCosts.forEach(serviceCost -> vendors.add(serviceCost.getVendor_id()));
 		return vendors;
 	}
+	
+	//service details
+		public List<Object[]> findServiceDetailsByServiceId(int serviceId) {
+	        return scr.findServiceDetailsByServiceId(serviceId);
+	    }
 }
