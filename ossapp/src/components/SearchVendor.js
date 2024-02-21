@@ -5,7 +5,10 @@ import axios from "axios";
 
 export default function SearchVendor() {
 
-    const custid = JSON.parse(localStorage.getItem("loggedCustomer")).customer_id;
+    //const custid = JSON.parse(localStorage.getItem("loggedCustomer")).customer_id;
+    const loggedCustomer = JSON.parse(localStorage.getItem("loggedCustomer"));
+    const custid = loggedCustomer?.customer_id || ''; // provide a default value if customer_id is not available
+
     const init = {
         service: { value: "", valid: false, touched: false, error: "" },
         subservice: { value: "", valid: false, touched: false, error: "" }
@@ -33,9 +36,7 @@ export default function SearchVendor() {
     const [selectedServiceId, setSelectedServiceId] = useState(null); // State to store selected service ID
     const navigate = useNavigate();
 
-    useEffect(() => {
-
-        
+    useEffect(() => {     
         const fetchServices = async () => {
             try {
                 const response = await fetch("http://localhost:8080/getServices");
