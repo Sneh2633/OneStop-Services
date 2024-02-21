@@ -9,11 +9,6 @@ import com.example.demo.entities.User;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-
-	
-
-	
-
 	
 	@Query("SELECT c FROM Customer c WHERE c.user_id = :uid")
     Customer findCustomer(User uid);

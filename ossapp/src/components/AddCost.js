@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function AddCost() {
@@ -25,6 +26,7 @@ export default function AddCost() {
   const [subservices, setSubservices] = useState([]);
   const [insertMsg, setInsertMsg] = useState("");
   const navigate = useNavigate();
+  const user = useSelector((state) => state.logged.user);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -46,8 +48,8 @@ export default function AddCost() {
 
   const fetchSubservices = async (categoryId) => {
     try {
-      //const response = await fetch(`http://localhost:8080/getSubservices?categoryId=${categoryId}`);
-     const response = await fetch(`http://localhost:8080/getallsubservices`);
+      const response = await fetch(`http://localhost:8080/category/${categoryId}`);
+    //  const response = await fetch(`http://localhost:8080/getallsubservices`);
       if (response.ok) {
         const data = await response.json();
         setSubservices(data);
@@ -73,7 +75,7 @@ export default function AddCost() {
         break;
 
       case "cost":
-        var pattern = /^[0-9]{5}$/;
+        var pattern = /^[0-9]{4}$/;
         if (!pattern.test(val)) {
           valid = false;
           error = "Invalid Cost";
@@ -110,7 +112,8 @@ export default function AddCost() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           cost: bookings.cost.value,
-          subserviceId: parseInt(bookings.subservice.value),
+          service_id: parseInt(bookings.subservice.value),
+          vendor_id : user.user_id,
         }),
       };
 
@@ -191,7 +194,7 @@ export default function AddCost() {
                 <option value="">Select</option>
                 {subservices.map((subservice) => (
                   <option key={subservice.service_id} value={subservice.service_id}>
-                    {subservice.subservice_name}
+                    {subservice.name}
                   </option>
                 ))}
               </select>

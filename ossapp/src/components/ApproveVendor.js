@@ -40,7 +40,28 @@ const ApproveVendor = () => {
             fetchVendors();
         } catch (error) {
             console.error("Error approving vendor:", error.message);
-            setApprovalStatus("Failed to approve vendor with ID ${vendorId}.");
+            setApprovalStatus(`Failed to approve vendor with ID ${vendorId}.`);
+        }
+    };
+
+    const rejectVendor = async (vendorId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/approveVendors/${vendorId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ approved: false })
+            });
+            if (!response.ok) {
+                throw new Error("Rejection Failed");
+            }
+            console.log(response.body);
+            setApprovalStatus("Vendor with ID ${vendorId} rejected successfully.");
+            fetchVendors();
+        } catch (error) {
+            console.error("Error rejecting vendor:", error.message);
+            setApprovalStatus("Rejection Failed");
         }
     };
 
@@ -72,6 +93,9 @@ const ApproveVendor = () => {
                             <td>{vendor.serviceid.service_name}</td>
                             <td>
                                 <button onClick={() => approveVendor(vendor.vendor_id)}>Approve</button>
+                            </td>
+                            <td>
+                                <button onClick={() => rejectVendor(vendor.vendor_id)}>Reject</button>
                             </td>
                         </tr>
                     ))}

@@ -52,4 +52,11 @@ public class ServicesController {
 	       return ss.getServicesByCategoryId(categoryId);
 	    }
 	 
+//	 @GetMapping("/services/{vendorId}")
+//	 public List<Services> getAllSubservicesByVendor(@PathVariable int vendorId){
+//		 
+//		 return ss.findAllServicesByVendor(vendorId);
+//		 
+//	 }
+//	 
 }

@@ -18,6 +18,7 @@ import VendorFeedback from './components/VendorFeedback';
 import AddCategory from './components/AddCategory';
 import ServiceCost from './components/ServiceCost';
 import AddCost from './components/AddCost';
+import ErrorPage from './components/ErrorPage';
 
 function App() {
   const mystate = useSelector(state => state.logged);
@@ -49,9 +50,8 @@ function App() {
           <Route path="/customerhome/searchvendors/VendorFeedback" element={<VendorFeedback />} />
           <Route path="/customerhome/searchvendors/ServiceCost" element={<ServiceCost />} />
           <Route path="/customerhome/searchvendors/VendorFeedback/:vendorId" element={<VendorFeedback />} />
-
         </Route>
-       
+
 
         <Route path="/vendorhome" element={<VendorHome />} >
           <Route path="customerrequests" element={<CustomerRequest />} />
@@ -66,6 +66,7 @@ function App() {
           <Route path="addservice" element={<AddService />} />
           <Route path="approvevendor" element={<ApproveVendor />} />
         </Route>
+        <Route component={ErrorPage} />
       </Routes>
     </div>
   );
