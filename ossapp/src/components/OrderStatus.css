@@ -1,0 +1,12 @@
+/* OrderStatus.css */
+.custom-table {
+    width: 100%;
+}
+
+.custom-column {
+    width: 10%;
+}
+
+table th {
+    align-content: center;
+}

@@ -40,6 +40,12 @@ public class ServicesController {
 		System.out.println(subService);
 		return ss.saveServices(subService);
 	}
+	
+	@GetMapping("/services/{service_id}")
+	public Services getById(@PathVariable int service_id) {
+		
+		return ss.getServicesById(service_id);
+	}
 
 	//fetching all subservices.
 	@GetMapping("/getallsubservices")

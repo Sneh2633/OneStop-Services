@@ -33,6 +33,9 @@ export default function VendorHome() {
                     <li className="nav-item">
                         <Link to="customerrequests" className="nav-link">Customer Requests</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link to="pendingOrders" className="nav-link">Pending Orders</Link>
+                    </li>
 
                     <li className="nav-item">
                         <Link to="addCost" className="nav-link">Add Cost</Link>

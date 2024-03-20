@@ -5,10 +5,7 @@ import axios from "axios";
 
 export default function SearchVendor() {
 
-    //const custid = JSON.parse(localStorage.getItem("loggedCustomer")).customer_id;
-    const loggedCustomer = JSON.parse(localStorage.getItem("loggedCustomer"));
-    const custid = loggedCustomer?.customer_id || ''; // provide a default value if customer_id is not available
-
+    const custid = JSON.parse(localStorage.getItem("loggedCustomer")).customer_id;
     const init = {
         service: { value: "", valid: false, touched: false, error: "" },
         subservice: { value: "", valid: false, touched: false, error: "" }
@@ -36,7 +33,9 @@ export default function SearchVendor() {
     const [selectedServiceId, setSelectedServiceId] = useState(null); // State to store selected service ID
     const navigate = useNavigate();
 
-    useEffect(() => {     
+    useEffect(() => {
+
+        
         const fetchServices = async () => {
             try {
                 const response = await fetch("http://localhost:8080/getServices");
@@ -122,19 +121,21 @@ export default function SearchVendor() {
         }
     };
 
-    const handleRequest = async () => {
+    const handleRequest = async (vendor_id) => {
         try {
             // Get the current date and time in the required format
             const bookingDatetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
     
             // Extract data needed for the order from state and other variables
             const orderData = {
-                vendorId: vendors[0].vendor_id, // Assuming the vendor is selected from the first item in the vendors array
+                vendorId: vendor_id, // Assuming the vendor is selected from the first item in the vendors array
                 customerId: custid,
                 servicesId: bookings.subservice.value, // Use selected service ID from state
                 bookingDatetime: bookingDatetime,
                 status: 0, // Set status to 0 for the first request
             };
+
+            console.log('requesting to '+ vendor_id);
     
             // Send a POST request to save the order
             const response = await fetch("http://localhost:8080/saveOrder", {
@@ -147,7 +148,7 @@ export default function SearchVendor() {
     
             // Check if the request was successful
             if (response.ok) {
-                setInsertMsg("Order placed successfully!"); // Set a message indicating success
+                setInsertMsg("Requested vendor successfully!"); // Set a message indicating success
             } else {
                 console.error("Failed to place order. Status:", response.status); // Log an error if the request fails
             }
@@ -226,6 +227,7 @@ export default function SearchVendor() {
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Email</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Address</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>Contact</th>
+                                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>Cost</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>ViewFeedback</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>ServiceDetails</th>
                                         <th style={{ border: "1px solid #ddd", padding: "8px" }}>MakeRequest</th>
@@ -233,17 +235,20 @@ export default function SearchVendor() {
                                 </thead>
                                 <tbody>
                                     {vendors.map((vendor) => (
-                                        <tr key={vendor.vendor_id}>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id}</td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.fname}</td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.lname}</td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.email}</td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.address}</td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.contact_number}</td>
+                                        <tr key={vendor.vendor_id.vendor_id}>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id.vendor_id}</td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id.fname}</td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id.lname}</td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id.email}</td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id.address}</td>
+                                            {/* <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id.address}</td> */}
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.vendor_id.contact_number}</td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>{vendor.cost}</td>
                                             <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to={`/customerhome/searchvendors/VendorFeedback/${vendor.vendor_id}`}>VendorFeedback</Link></td>
-                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to="/customerhome/searchvendors/ServiceCost">serviceDetails</Link></td>
+                                            <td style={{ border: "1px solid #ddd", padding: "8px" }}><Link to={`/customerhome/searchvendors/ServiceCost/${vendor.service_id.service_id}`}>serviceDetails</Link></td>
+                                          {console.log(vendor.service_id.service_id)}
                                             <td>
-                                                <button type="button" className="btn btn-success" onClick={() => handleRequest()}>Request</button>
+                                                <button type="button" className="btn btn-success" onClick={() => handleRequest(vendor.vendor_id.vendor_id)}>Request</button>
                                             </td>
                                         </tr>
                                     ))}
@@ -254,7 +259,7 @@ export default function SearchVendor() {
                 </div>
                 <div className="col"></div>
             </div>
-            <h1> {insertMsg} </h1>
+            <div> {insertMsg} </div>
         </div>
     );
 }

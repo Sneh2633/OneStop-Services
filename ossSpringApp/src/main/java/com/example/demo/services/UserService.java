@@ -14,15 +14,22 @@ public class UserService {
 	@Autowired
 	UserRepository urepo;
 	
-	public User getLogin(String username,String password) {
+	public User getLogin(String username,String password) throws Exception {
 		User u;
 		Optional<User>ol=urepo.chklogin(username, password);
 		
 		try {
 			u=ol.get();
+			if(u.isStatus()==false) {
+				throw new Exception("Not approved!!");
+			}
+			
 		}catch(Exception e) {
-			u=null;
+			System.out.println(e.getMessage());
+			throw new Exception("Invalid Username or Password!!!");
 		}
+		
+		
 		return u;
 	}
 	

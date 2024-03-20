@@ -19,6 +19,10 @@ import AddCategory from './components/AddCategory';
 import ServiceCost from './components/ServiceCost';
 import AddCost from './components/AddCost';
 import ErrorPage from './components/ErrorPage';
+import PendingOrders from './components/PendingOrders';
+import OrderStatus from './components/OrderStatus';
+import ServiceDetails from './components/ServiceDetails';
+import PaymentSuccess from './components/paymentSuccess';
 
 function App() {
   const mystate = useSelector(state => state.logged);
@@ -50,6 +54,9 @@ function App() {
           <Route path="/customerhome/searchvendors/VendorFeedback" element={<VendorFeedback />} />
           <Route path="/customerhome/searchvendors/ServiceCost" element={<ServiceCost />} />
           <Route path="/customerhome/searchvendors/VendorFeedback/:vendorId" element={<VendorFeedback />} />
+          <Route path="/customerhome/searchvendors/ServiceCost/:service_id" element={<ServiceDetails />} />
+          <Route path="paymentsuccess" element={<PaymentSuccess/>}/>
+          <Route path='orderstatus' element={<OrderStatus/>}/>
         </Route>
 
 
@@ -58,6 +65,7 @@ function App() {
           <Route path="updateservices" element={<UpdateService />} />
           <Route path="addCost" element={<AddCost />} />
           <Route path="logout" element={<Logout />} />
+          <Route path="pendingOrders" element={<PendingOrders/>}/>
         </Route>
 
         <Route path="/adminhome" element={<AdminHome />} >

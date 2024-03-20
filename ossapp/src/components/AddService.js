@@ -95,7 +95,7 @@ export default function AddService() {
         }),
       };
 
-      fetch("http://localhost:8080/addsubServices", reqOptions)
+      fetch('http://localhost:8080/addsubServices', reqOptions)
         .then((res) => {
           if (res.ok) {
             setInsertMsg("Subservice added successfully");

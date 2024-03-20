@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "zMSdPGIWSXbrVN26hwfZV/0zfjYtLMixn33KEmd3qos=",
+  "Source": "ossDotNetApp",
+  "BasePath": "_content/ossDotNetApp",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -61,5 +61,9 @@ public class ServicesService {
 //		
 //		return services;
 //	}
+	 
+	 public Services getServicesById(int serviceId) {
+		 return sr.findById(serviceId).orElseThrow();
+	 }
 
 }

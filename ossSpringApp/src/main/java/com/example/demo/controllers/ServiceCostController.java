@@ -37,7 +37,7 @@ public class ServiceCostController {
 
 	
 	@GetMapping("/servicecost/vendors")
-	public List<Vendor> getAllVendorsProvidingServices(@RequestParam("subserviceId") int subserviceId){
+	public List<ServiceCost> getAllVendorsProvidingServices(@RequestParam("subserviceId") int subserviceId){
 		
 		return scs.findAllVendorsBasedOnServices(subserviceId);
 	}

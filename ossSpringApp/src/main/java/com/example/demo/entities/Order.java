@@ -5,8 +5,10 @@ import java.util.Date;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name="orders")
 public class Order {

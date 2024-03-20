@@ -66,13 +66,13 @@ public class ServiceCostService {
 		return allServiceCostByVendor;
 	}
 
-	public List<Vendor> findAllVendorsBasedOnServices(int request) {
+	public List<ServiceCost> findAllVendorsBasedOnServices(int request) {
 		Services subService = sr.findById(request).orElseThrow();
 		List<ServiceCost> serviceCosts  = scr.findAllByService_id(subService);
-		List<Vendor> vendors = new ArrayList<>();
-		
-		serviceCosts.forEach(serviceCost -> vendors.add(serviceCost.getVendor_id()));
-		return vendors;
+//		List<Vendor> vendors = new ArrayList<>();
+//		
+//		serviceCosts.forEach(serviceCost -> vendors.add(serviceCost.getVendor_id()));
+		return serviceCosts;
 	}
 	
 	//service details

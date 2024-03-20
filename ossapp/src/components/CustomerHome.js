@@ -35,7 +35,10 @@ export default function CustomerHome() {
                     </li>
                     
                     <li className="nav-item">
-                        <Link to="searchvendors" className="nav-link">Search vendors</Link>
+                        <Link to="searchvendors" className="nav-link">Browse Vendors</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="orderstatus" className="nav-link">Pending Services</Link>
                     </li>
 
                     <li className="nav-item">

@@ -27,7 +27,8 @@ const AddCategory = () => {
         let error = "";
         switch (key) {
             case "service":
-                var pattern = /^[A-Z]{1}[a-z]{1,}$/;
+                //var pattern = /^[A-Z]{1}[a-z]{1,} $/;
+                var pattern = /^[A-Z][a-z]*(?:\s[A-Z][a-z]*)*$/;
                 if (!pattern.test(val)) {
                     valid = false;
                     error = "Invalid Service Name";
@@ -53,11 +54,11 @@ const AddCategory = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    service_name: formState.service.value,
+                    ServiceName: formState.service.value,
                 }),
             };
 
-            fetch("http://localhost:8080/addServices", reqOptions)
+            fetch('https://localhost:7017/api/Category', reqOptions)
                 .then((res) => {
                     if (!res.ok) {
                         throw new Error("This Service is already exixts.");

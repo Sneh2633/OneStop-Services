@@ -21,6 +21,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name="roleid")
     Role roleid;
+    
     private boolean status;
     
     public int getUser_id() {

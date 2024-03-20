@@ -10,11 +10,18 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.Customer;
 import com.example.demo.entities.Order;
+import com.example.demo.entities.Vendor;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Integer>{
 
 	@Query("SELECT o.customer_id FROM Order o WHERE o.vendor_id.id = :vendorId")
 	List<Customer> findCustomerDetailsByVendorId(@Param("vendorId") int vendorId);
+
+	@Query("SELECT o FROM Order o WHERE o.customer_id=:c")
+	List<Order> findByCustomer_id(Customer c);
+
+	@Query("SELECT o FROM Order o WHERE o.vendor_id = :v")
+	List<Order> findAllBYVendorId(Vendor v);
 	
 }

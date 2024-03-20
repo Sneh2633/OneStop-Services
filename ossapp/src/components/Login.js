@@ -33,7 +33,7 @@ export default function Login() {
 
     switch (key) {
       case "username":
-        var pattern = /^[a-z]{1,}[@][a-z]{1,}[.][a-z]{1,}$/;
+        var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!pattern.test(val)) {
           valid = false;
           error = "Invalid Username";
@@ -124,7 +124,7 @@ export default function Login() {
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
-          setInsertMsg("Server is not reachable or network error occurred. Please try again later.");
+          setInsertMsg("Invalid Username or Password Or You are not authorised !!!");
         });
     } else {
       console.log("Form has validation errors. Please fix them before submitting.");
@@ -173,7 +173,11 @@ export default function Login() {
         <div class="col">
         </div>
       </div>
-      <h2> {insertMsg} </h2>
+      <div class="container mt-4">
+  <div class="d-flex justify-content-center ">
+       {insertMsg} 
+      </div>
+      </div>
     </div>
   );
 }
