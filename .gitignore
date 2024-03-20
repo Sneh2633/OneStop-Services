@@ -1,3 +1,5 @@
 /.metadata/
 
 server
+
+node_modules

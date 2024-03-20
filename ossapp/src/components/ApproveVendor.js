@@ -46,7 +46,7 @@ const ApproveVendor = () => {
 
     const rejectVendor = async (vendorId) => {
         try {
-            const response = await fetch(`http://localhost:8080/approveVendors/${vendorId}`, {
+            const response = await fetch(`http://localhost:8080/rejectVendors/${vendorId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

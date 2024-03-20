@@ -20,6 +20,9 @@ public class VendorService {
 	@Autowired
 	UserRepository urepo;
 	
+	@Autowired
+	UserService uservice;
+	
 	public Vendor saveVendor(Vendor v) {
 		return vrepo.save(v);
 	}
@@ -56,4 +59,12 @@ public class VendorService {
 	        Optional<Vendor> vendor = vrepo.findById(id);
 	        return vendor.orElse(null);
 	    }
+
+	public void rejectVendor(Integer id) {
+		Vendor vendor = vrepo.findById(id).orElseThrow();
+		vrepo.delete(vendor);
+		uservice.delete(vendor.getUser_id());
+		
+		
+	}
 }

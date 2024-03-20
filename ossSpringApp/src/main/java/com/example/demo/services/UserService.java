@@ -37,6 +37,9 @@ public class UserService {
 		return urepo.save(u);
 	}
 	
+	public void delete(User u) {
+		urepo.delete(u);
+	}
 	public User getUser(int userid) {
 		return urepo.findById(userid).get();
 	}

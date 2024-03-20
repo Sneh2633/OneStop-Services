@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +58,12 @@ public class VendorController {
 	@PutMapping("/approveVendors/{id}")
 	public Vendor changeStatus(@PathVariable Integer id) {
 		return vservice.changeStatusById(id);
+	}
+	
+	@PutMapping("/rejectVendors/{id}")
+	public ResponseEntity<?> rejectVendor(@PathVariable Integer id) {
+		vservice.rejectVendor(id);
+		return  ResponseEntity.ok(null);
 	}
 	
 	//get vendors list by serviceid
